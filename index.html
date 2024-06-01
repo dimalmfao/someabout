@@ -1,1 +1,135 @@
-some stuff here. ig?
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="dima, a human...">
+    <meta name="keywords" content="dima, dimalmfao">
+    <meta name="author" content="@dimalmfao">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="300">
+    <title>dima, a human...</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0; /* Adjust margin as needed */
+            font-family: "Source Code Pro", monospace;
+            font-optical-sizing: auto;
+            font-style: normal;
+            color: white;
+            background-color: #1D1E22;
+            position: relative; /* Added */
+        }
+        h1, h2, h3, h4, nav, .section {
+            text-align: center;
+            font-weight: normal;
+        }
+        nav a {
+            display: block;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .hidden {
+            display: none;
+        }
+        #sessionid {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 10px; /* Add some padding for better visibility */
+            font-size: 12px; /* Smaller font size */
+            color: #667B96; /* Changed to gray */
+        }
+        a {
+            color: #667B96;
+        }
+        a:hover {
+            color: #7891b3;
+        }
+
+        .sub {
+            vertical-align: text-bottom; /* <-- Reset the user agent stylesheet   */
+            position: relative;          /* <-- Set position to the element       */
+            bottom: 0.6em;                   /* <-- Move the <sub> element down a bit */
+        }
+
+    </style>
+</head>
+<body>
+    <h2>dima, just another human</h2>
+    <span class="sub" style="font-size: 16px;">online, somewhere, sometimes</span>
+    <nav>
+        <a href="https://src.eco/">the source</a>
+        <a href="gpg.txt">signature</a>
+        <a href="#about" onclick="showSection('about'); return false;">about</a>
+    </nav>
+    <div id="about" class="section">
+        <h4>about</h4>
+        <hr width="100px">
+        <p>too lazy. see on your own. <br>and, why should i dox myself?</p>
+    </div>
+
+    <div id="sessionid"></div>
+    <script>
+        function showSection(sectionId) {
+            history.pushState({ section: sectionId }, "", `#${sectionId}`);
+
+            document.querySelector('h2').classList.add('hidden'); // Changed from h3 to h
+            document.querySelector('nav').classList.add('hidden');
+            document.querySelector('span').classList.add('hidden');
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`nav a[href="#${sectionId}"]`).classList.add('active');
+        }
+
+        function showMain() {
+            document.querySelector('h2').classList.remove('hidden');
+            document.querySelector('nav').classList.remove('hidden');
+            document.querySelector('span').classList.remove('hidden');
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+        }
+
+        window.onpopstate = function(event) {
+            if (event.state && event.state.section) {
+                showSection(event.state.section);
+            } else {
+                showMain();
+            }
+        };
+
+        window.onload = function() {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                showSection(hash);
+            } else {
+                showMain();
+            }
+            const sessionID = generateSessionID();
+            document.getElementById('sessionid').textContent = sessionID;
+
+        };
+        function generateSessionID() {
+            const randomValue = Math.random().toString(36).substr(2, 8).toUpperCase();
+            const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+            return randomValue + currentDate;
+        }
+    </script>
+</body>
+</html>
