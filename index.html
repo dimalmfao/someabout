@@ -54,7 +54,7 @@
             color: #667B96;
         }
         a:hover {
-            color: #7891b3;
+            color: #babdc4;
         }
 
         .sub {
@@ -68,7 +68,6 @@
             left: 0;
             padding: 10px;
         }
-
     </style>
 </head>
 <body>
@@ -84,17 +83,18 @@
         <a href="https://src.eco/">the source</a>
         <a href="pgp.txt">signature</a>
         <a href="#about" onclick="showSection('about'); return false;">about</a>
-        <a href="#send" onclick="showSection('send'); return false;">send</a>
+        <a href="#donate" onclick="showSection('donate'); return false;">donate</a>
     </nav>
     <div id="about" class="section">
         <h4>about</h4>
         <hr width="100px">
         <p>too lazy. see on your own. <br>and, why should i dox myself?</p>
     </div>
-    <div id="send" class="section">
-        <h4>send</h4>
+    <div id="donate" class="section">
+        <h4>donate</h4>
         <hr width="100px">
-        <p>BTC: bc1qpd5d59sm6gs8gthr0xs7knvs33evyr2rrcv6gf</p>
+        <p>send crypto here</p>
+        <a href="bitcoin:bc1qpd5d59sm6gs8gthr0xs7knvs33evyr2rrcv6gf">a</a>
     </div>
     
 
@@ -149,6 +149,36 @@
             const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
             return randomValue + currentDate;
         }
+        (function(e, t, n, r, i) {
+            var s = ".btc-button{display:inline-block;overflow:hidden;font-family:'Helvetica Neue',Arial,sans-serif;line-height:1.5em;padding:0 0 0 .5em;color:#FFF;border:2px solid #3b3e45;background-color:#525660;text-decoration:none}.btc-button i{position:relative;padding:0 .5em;margin-left:1em;font-style:normal;float:right;background-color:#757a8a;white-space:nowrap}.btc-button i::before{position:absolute;top:0;left:-1.5em;content:'';border-style:solid;border-width:.75em;border-color:transparent #5e626e transparent transparent}";
+            var o = document.createElement("style");
+            o.type = "text/css";
+            if (o.styleSheet) {
+              o.styleSheet.cssText = s
+            } else {
+              o.appendChild(document.createTextNode(s))
+            }
+            document.getElementsByTagName("head")[0].appendChild(o);
+            var u = function(e, t) {
+            var s = new XMLHttpRequest;
+            s.open("GET", r + t, true);
+            s.onreadystatechange = function() {
+              if (s.status != 200 || s.readyState != 4) return;
+               e.innerHTML += "<i>" + Math.round(s.responseText / 1e4) / 100 + " BTC</i>"
+            };
+            s.send();
+                e.className += " " + n;
+                e.innerHTML = i
+            };
+            for (var a = e.length - 1; a >= 0; a--) {
+            if (e[a].href.substring(0, t.length) === t) {
+             u(e[a], e[a].href.substring(t.length), i)
+            }
+        }
+  })
+  
+  (document.getElementsByTagName("a"), "bitcoin:", "btc-button", "https://blockchain.info/q/getreceivedbyaddress/", "Send");
+
     </script>
 </body>
 </html>
